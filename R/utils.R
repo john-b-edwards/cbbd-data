@@ -6,8 +6,16 @@ most_recent_season <- function() {
   }
 }
 
+query_weeks <- function(year) {
+  start <- seq.Date(from = as.Date(paste0(year - 1, "-10-01")),
+                    to = as.Date(paste0(year, "-04-30")),
+                    by = "week")
+  end <- start + 7
+  return(data.frame(start_date = start, end_date = end))
+}
+
 query_cbbd <- function(my_path, my_query) {
-  httr::RETRY(
+  df <- httr::RETRY(
     "GET",
     "https://api.collegebasketballdata.com",
     path = "games",
@@ -18,8 +26,13 @@ query_cbbd <- function(my_path, my_query) {
     )
   ) |>
     httr::content("raw") |>
-    RcppSimdJson::fparse() |>
-    janitor::clean_names()
+    RcppSimdJson::fparse()
+  if (!is.null(df)) {
+    df <- janitor::clean_names(df)
+  } else {
+    df <- data.frame()
+  }
+  return(df)
 }
 
 cbbd_save <- function(df, file_name, file_tag) {
@@ -36,7 +49,9 @@ cbbd_save <- function(df, file_name, file_tag) {
     compress_level = 22,
     shuffle_control = 15
   )
-  for (file in file.path(temp_dir)) {
+  files <-  list.files(temp_dir)
+  files <- files[grepl(file_name, files)]
+  for (file in paste0(temp_dir, "\\", files)) {
     piggyback::pb_upload(
       file,
       repo = "john-b-edwards/cbbd-data",
