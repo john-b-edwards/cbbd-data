@@ -35,4 +35,4 @@ jobs:
             any::janitor
 
       - name: Update games
-        run: Rscript -e 'source("update-games.R")'
+        run: Rscript -e 'source("src/update-games.R")'
