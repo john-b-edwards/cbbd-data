@@ -32,6 +32,7 @@ jobs:
             any::qs
             any::piggyback
             any::gh
+            any::janitor
 
       - name: Update games
         run: Rscript -e 'source("update-games.R")'
