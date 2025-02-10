@@ -26,7 +26,7 @@ jobs:
           extra-packages: |
             any::tidyverse
             any::httr
-            any::rcppsimdjson
+            any::RcppSimdJson
             any::data.table
             any::arrow
             any::qs
