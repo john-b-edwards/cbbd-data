@@ -24,14 +24,14 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
-            cran/tidyverse
-            cran/httr
-            cran/rcppsimdjson
-            cran/data.table
-            cran/arrow
-            cran/qs
-            cran/piggyback
-            cran/gh
+            any::tidyverse
+            any::httr
+            any::rcppsimdjson
+            any::data.table
+            any::arrow
+            any::qs
+            any::piggyback
+            any::gh
 
       - name: Update games
         run: Rscript -e 'source("src/update_games.R")'
