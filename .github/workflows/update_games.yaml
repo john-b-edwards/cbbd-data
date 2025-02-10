@@ -1,0 +1,37 @@
+on:
+  schedule:
+    # runs every day at 7:00 AM UTC
+    - cron:  '0 7 * 1,2,3,4,10,11,12 *'
+  workflow_dispatch:
+
+name: update-games
+
+jobs:
+  update-games:
+    name: update-games
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.CBBD_DATA_GH_TOKEN }}
+      CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+          cran/tidyverse
+          cran/httr
+          cran/rcppsimdjson
+          cran/data.table
+          cran/arrow
+          cran/qs
+          cran/piggyback
+          cran/gh
+
+      - name: Update games
+        run: Rscript -e 'source("src/update_games.R")'

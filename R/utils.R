@@ -56,7 +56,7 @@ cbbd_save <- function(df, file_name, file_tag) {
       file,
       repo = "john-b-edwards/cbbd-data",
       tag = file_tag,
-      .token = gh::gh_token()
+      .token = Sys.getenv("GITHUB_PAT")
     )
   }
 }
