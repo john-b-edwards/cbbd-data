@@ -34,4 +34,4 @@ jobs:
             any::gh
 
       - name: Update games
-        run: Rscript -e 'source("update_games.R")'
+        run: Rscript -e 'source("update-games.R")'
