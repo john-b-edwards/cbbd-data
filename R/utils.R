@@ -41,14 +41,6 @@ cbbd_save <- function(df, file_name, file_tag) {
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv")))
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv.gz")))
   arrow::write_parquet(df, file.path(temp_dir, paste0(file_name, ".parquet")))
-  qs::qsave(
-    df,
-    file.path(temp_dir, paste0(file_name, ".qs")),
-    preset = "custom",
-    algorithm = "zstd_stream",
-    compress_level = 22,
-    shuffle_control = 15
-  )
   files <-  list.files(temp_dir)
   files <- files[grepl(file_name, files)]
   for (file in paste0(temp_dir, "\\", files)) {
