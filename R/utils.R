@@ -18,7 +18,7 @@ query_cbbd <- function(my_path, my_query) {
   df <- httr::RETRY(
     "GET",
     "https://api.collegebasketballdata.com",
-    path = "games",
+    path = my_path,
     query = my_query,
     httr::add_headers(
       accept = "application/json",
