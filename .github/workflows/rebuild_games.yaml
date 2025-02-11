@@ -1,11 +1,11 @@
 on:
   workflow_dispatch:
 
-name: update-games
+name: rebuild-games
 
 jobs:
-  update-games:
-    name: update-games
+  rebuild-games:
+    name: rebuild-games
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.CBBD_DATA_GH_TOKEN }}
@@ -32,5 +32,5 @@ jobs:
             any::gh
             any::janitor
 
-      - name: Update games
+      - name: Rebuild games
         run: Rscript -e 'source("src/update-games.R")'
