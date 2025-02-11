@@ -6,11 +6,11 @@ most_recent_season <- function() {
   }
 }
 
-query_weeks <- function(year) {
+query_days <- function(year) {
   start <- seq.Date(from = as.Date(paste0(year - 1, "-10-01")),
                     to = as.Date(paste0(year, "-04-30")),
-                    by = "week")
-  end <- start + 7
+                    by = "day")
+  end <- start + 1
   return(data.frame(start_date = start, end_date = end))
 }
 
@@ -60,3 +60,4 @@ cbbd_save <- function(df, file_name, file_tag) {
     )
   }
 }
+

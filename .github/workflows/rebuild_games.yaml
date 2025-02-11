@@ -1,7 +1,4 @@
 on:
-  schedule:
-    # runs every day at 7:00 AM UTC
-    - cron:  '0 7 * 1,2,3,4,10,11,12 *'
   workflow_dispatch:
 
 name: update-games
@@ -13,7 +10,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.CBBD_DATA_GH_TOKEN }}
       CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
-      TO_UPDATE: MOST_REC
+      TO_UPDATE: ALL
 
     steps:
       - uses: actions/checkout@v4
