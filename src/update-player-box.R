@@ -1,12 +1,12 @@
 source("R/utils.R")
 
 build_player_box <- function(query_season = most_recent_season()) {
-  days <- query_days(query_season)
-  player_box <- purrr::map2(days$start_date,
-                          days$end_date,
-                          \(x, y) query_cbbd("games/players", list(
-                            startDateRange = x, endDateRange = y
-                          ))) |>
+  weeks <- query_weeks(query_season)
+  player_box <- purrr::map2(weeks$start_date,
+                            weeks$end_date,
+                            \(x, y) query_cbbd("games/players", list(
+                              startDateRange = x, endDateRange = y
+                            ))) |>
     purrr::list_rbind()
   player_box <- player_box |>
     tidyr::unnest(players)
@@ -16,7 +16,9 @@ build_player_box <- function(query_season = most_recent_season()) {
     }
   }
   player_box <- janitor::clean_names(player_box)
-  cbbd_save(player_box, paste0("player_box_scores_", query_season), "player_box_scores")
+  cbbd_save(player_box,
+            paste0("player_box_scores_", query_season),
+            "player_box_scores")
 }
 
 # build all seasons

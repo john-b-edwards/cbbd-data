@@ -1,9 +1,9 @@
 source("R/utils.R")
 
 build_team_box <- function(query_season = most_recent_season()) {
-  days <- query_days(query_season)
-  team_box <- purrr::map2(days$start_date,
-                          days$end_date,
+  weeks <- query_weeks(query_season)
+  team_box <- purrr::map2(weeks$start_date,
+                          weeks$end_date,
                           \(x, y) query_cbbd("games/teams", list(
                             startDateRange = x, endDateRange = y
                           ))) |>
