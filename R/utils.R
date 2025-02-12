@@ -43,7 +43,7 @@ cbbd_save <- function(df, file_name, file_tag) {
   arrow::write_parquet(df, file.path(temp_dir, paste0(file_name, ".parquet")))
   files <-  list.files(temp_dir)
   files <- files[grepl(file_name, files)]
-  for (file in paste0(temp_dir, "\\", files)) {
+  for (file in file.path(temp_dir, files)) {
     piggyback::pb_upload(
       file,
       repo = "john-b-edwards/cbbd-data",
