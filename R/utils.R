@@ -66,7 +66,8 @@ query_cbbd <- function(my_path, my_query) {
     httr::add_headers(
       accept = "application/json",
       Authorization = paste("Bearer", Sys.getenv("CFBD_API_KEY"))
-    )
+    ),
+    config = httr::config(connecttimeout = 60)
   ) |>
     httr::content("raw") |>
     RcppSimdJson::fparse()

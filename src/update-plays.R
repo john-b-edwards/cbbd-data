@@ -113,7 +113,7 @@ build_plays <- function(
 if (Sys.getenv("TO_UPDATE") == "ALL") {
   purrr::walk(2006:most_recent_season(), \(x) {
     print(paste0("Building plays for ", x, "..."))
-    build_plays(x)
+    build_plays(x, build_from_scratch = TRUE)
     print("Done!")
   })
 } else {
