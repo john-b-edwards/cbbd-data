@@ -1,25 +1,60 @@
 most_recent_season <- function() {
-  if(as.integer(format(Sys.Date(),"%m")) < 10) {
-    return(as.integer(format(Sys.Date(),"%Y")))
+  if (as.integer(format(Sys.Date(), "%m")) < 10) {
+    return(as.integer(format(Sys.Date(), "%Y")))
   } else {
-    return(as.integer(format(Sys.Date(),"%Y")) + 1)
+    return(as.integer(format(Sys.Date(), "%Y")) + 1)
   }
 }
 
 query_weeks <- function(year) {
-  start <- seq.Date(from = as.Date(paste0(year - 1, "-11-01")),
-                    to = as.Date(paste0(year, "-04-30")),
-                    by = "week")
+  start <- seq.Date(
+    from = as.Date(paste0(year - 1, "-11-01")),
+    to = as.Date(paste0(year, "-04-30")),
+    by = "week"
+  )
   end <- start + 7
   return(data.frame(start_date = start, end_date = end))
 }
 
 query_days <- function(year) {
-  start <- seq.Date(from = as.Date(paste0(year - 1, "-11-01")),
-                    to = as.Date(paste0(year, "-04-30")),
-                    by = "day")
+  start <- seq.Date(
+    from = as.Date(paste0(year - 1, "-11-01")),
+    to = as.Date(paste0(year, "-04-30")),
+    by = "day"
+  )
   end <- start + 1
   return(data.frame(start_date = start, end_date = end))
+}
+
+query_games <- function(
+  my_path,
+  query_season = most_recent_season(),
+  game_identifier = "gameId"
+) {
+  start_date <- as.Date(paste0(query_season - 1, "-10-01"))
+  end_date <- as.Date(paste0(query_season, "-05-01"))
+  dfs <- list()
+  counter <- 0
+  while (start_date < end_date) {
+    counter <- counter + 1
+    tmp_df <- query_cbbd(
+      my_path,
+      list(
+        startDateRange = start_date,
+        endDateRange = end_date
+      )
+    )
+    dfs[[counter]] <- tmp_df
+    if (nrow(tmp_df) == 3000) {
+      # maximum number of games returned by API
+      start_date <- max(as.Date(tmp_df$start_date))
+    } else {
+      start_date <- end_date
+    }
+  }
+  dfs |>
+    purrr::list_rbind() |>
+    dplyr::distinct(!!dplyr::sym(game_identifier), .keep_all = T)
 }
 
 query_cbbd <- function(my_path, my_query) {
@@ -49,7 +84,7 @@ cbbd_save <- function(df, file_name, file_tag) {
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv")))
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv.gz")))
   arrow::write_parquet(df, file.path(temp_dir, paste0(file_name, ".parquet")))
-  files <-  list.files(temp_dir)
+  files <- list.files(temp_dir)
   files <- files[grepl(file_name, files)]
   for (file in file.path(temp_dir, files)) {
     piggyback::pb_upload(
