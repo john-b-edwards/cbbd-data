@@ -29,7 +29,8 @@ query_days <- function(year) {
 query_games <- function(
   my_path,
   query_season = most_recent_season(),
-  game_identifier = "gameId"
+  game_identifier = "game_id",
+  max_results_returned = 3000
 ) {
   start_date <- as.Date(paste0(query_season - 1, "-10-01"))
   end_date <- as.Date(paste0(query_season, "-05-01"))
@@ -45,8 +46,7 @@ query_games <- function(
       )
     )
     dfs[[counter]] <- tmp_df
-    if (nrow(tmp_df) == 3000) {
-      # maximum number of games returned by API
+    if (nrow(tmp_df) == max_results_returned) {
       start_date <- max(as.Date(tmp_df$start_date))
     } else {
       start_date <- end_date
