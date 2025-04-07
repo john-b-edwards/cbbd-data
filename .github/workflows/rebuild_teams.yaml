@@ -6,7 +6,7 @@ name: rebuild-teams
 jobs:
   rebuild-teams:
     name: rebuild-teams
-    runs-on: ubuntu-teams
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.CBBD_DATA_GH_TOKEN }}
       CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
