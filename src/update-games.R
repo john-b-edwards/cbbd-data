@@ -1,13 +1,27 @@
 source("R/utils.R")
 
 build_games <- function(query_season = most_recent_season()) {
-  weeks <- query_weeks(query_season)
-  games <- purrr::map2(weeks$start_date,
-                       weeks$end_date,
-                       \(x, y) query_cbbd("games", list(
-                         startDateRange = x, endDateRange = y
-                       ))) |>
-    purrr::list_rbind()
+  start_date <- as.Date(paste0(query_season - 1, "-10-01"))
+  end_date <- as.Date(paste0(query_season, "-05-01"))
+  games <- list()
+  counter <- 0
+  while (start_date < end_date) {
+    counter <- counter + 1
+    games_df <- query_cbbd(
+      "games",
+      list(
+        startDateRange = start_date,
+        endDateRange = end_date
+      )
+    )
+    games[[counter]] <- games_df
+    if (nrow(games_df) == 3000) {
+      start_date <- max(as.Date(games_df$start_date))
+    } else {
+      start_date <- end_date
+    }
+  }
+  games <- games |> purrr::list_rbind() |> dplyr::distinct(id, .keep_all = T)
   games <- games |>
     tidyr::unnest_wider(home_period_points, names_sep = "_") |>
     tidyr::unnest_wider(away_period_points, names_sep = "_")
