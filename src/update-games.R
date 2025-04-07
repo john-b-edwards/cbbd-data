@@ -16,6 +16,7 @@ build_games <- function(query_season = most_recent_season()) {
     )
     games[[counter]] <- games_df
     if (nrow(games_df) == 3000) {
+      # maximum number of games returned by API
       start_date <- max(as.Date(games_df$start_date))
     } else {
       start_date <- end_date
