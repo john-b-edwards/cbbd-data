@@ -1,4 +1,7 @@
 on:
+  schedule:
+    # runs every day at 7:20 AM UTC
+    - cron:  '20 7 * 1,2,3,4,10,11,12 *'
   workflow_dispatch:
 
 name: update-player-box
