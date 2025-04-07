@@ -1,0 +1,39 @@
+on:
+  schedule:
+    # runs once on oct 15 of each year
+    - cron:  '30 6 15 10 *'
+  workflow_dispatch:
+
+name: update-venues
+
+jobs:
+  update-venues:
+    name: update-venues
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.CBBD_DATA_GH_TOKEN }}
+      CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+      TO_UPDATE: MOST_REC
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyverse
+            any::httr
+            any::RcppSimdJson
+            any::data.table
+            any::arrow
+            any::qs
+            any::piggyback
+            any::gh
+            any::janitor
+
+      - name: Update venues
+        run: Rscript -e 'source("src/update-venues.R")'
