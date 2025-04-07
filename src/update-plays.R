@@ -111,7 +111,11 @@ build_plays <- function(
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2006:most_recent_season(), build_plays, .progress = T)
+  purrr::walk(2006:most_recent_season(), \(x) {
+    print(paste0("Building plays for ", x, "..."))
+    build_plays(x)
+    print("Done!")
+  })
 } else {
   build_plays()
 }
