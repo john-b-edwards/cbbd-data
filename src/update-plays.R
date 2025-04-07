@@ -99,7 +99,7 @@ build_plays <- function(
       plays[[colname]] <- NA_character_
     }
   }
-  if (!build_from_scratch & nrow(existing_plays) > 0) {
+  if (!build_from_scratch && nrow(existing_plays) > 0) {
     plays <- existing_plays |>
       dplyr::filter(!(as.Date(game_start_date) %in% to_scrape)) |>
       dplyr::bind_rows(
