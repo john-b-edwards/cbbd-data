@@ -18,6 +18,30 @@ build_player_box <- function(query_season = cbbreadr::most_recent_season()) {
     }
   }
   player_box <- janitor::clean_names(player_box)
+  data.table::setDT(player_box)
+  data.table::setnames(
+    player_box,
+    old = c(
+      "notes",
+      "team",
+      "team_conference",
+      "opponent",
+      "opponent_conference",
+      "name",
+      "position"
+    ),
+    new = c(
+      "game_notes",
+      "team_name",
+      "team_conference_short_name",
+      "opponent_name",
+      "opponent_conference_short_name",
+      "athlete_name",
+      "athlete_position"
+    )
+  )
+  clean_game_type(player_box)
+  player_box <- data.frame(player_box)
   cbbd_save(
     player_box,
     paste0("player_box_scores_", query_season),

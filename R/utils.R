@@ -88,3 +88,18 @@ cbbd_save <- function(df, file_name, file_tag) {
     )
   }
 }
+
+clean_game_type <- function(x) {
+  x[,
+    game_type := data.table::fcase(
+      game_type == "STD",
+      "STD",
+      data.table::`%chin%`(
+        game_type,
+        c("FINAL", "QTR", "RD16", "RD32", "RD64", "SEMI", "TRNMNT")
+      ),
+      "TRNMNT",
+      default = NA_character_
+    )
+  ]
+}
