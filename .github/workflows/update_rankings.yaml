@@ -33,6 +33,8 @@ jobs:
             any::piggyback
             any::gh
             any::janitor
+          extra-packages: |
+            john-b-edwards/cbbreadr
 
       - name: update rankings
         run: Rscript -e 'source("src/update-rankings.R")'

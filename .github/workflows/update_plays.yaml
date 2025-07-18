@@ -35,6 +35,8 @@ jobs:
             any::gh
             any::janitor
             any::nflreadr
+          extra-packages: |
+            john-b-edwards/cbbreadr
 
       - name: update plays
         run: Rscript -e 'source("src/update-plays.R")'

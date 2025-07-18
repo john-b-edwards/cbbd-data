@@ -34,6 +34,8 @@ jobs:
             any::piggyback
             any::gh
             any::janitor
+          extra-packages: |
+            john-b-edwards/cbbreadr
 
       - name: Update conferences
         run: Rscript -e 'source("src/update-conferences.R")'

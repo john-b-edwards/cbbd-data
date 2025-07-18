@@ -1,11 +1,3 @@
-most_recent_season <- function() {
-  if (as.integer(format(Sys.Date(), "%m")) < 10) {
-    return(as.integer(format(Sys.Date(), "%Y")))
-  } else {
-    return(as.integer(format(Sys.Date(), "%Y")) + 1)
-  }
-}
-
 query_weeks <- function(year) {
   start <- seq.Date(
     from = as.Date(paste0(year - 1, "-11-01")),
@@ -28,7 +20,7 @@ query_days <- function(year) {
 
 query_games <- function(
   my_path,
-  query_season = most_recent_season(),
+  query_season = cbbreadr::most_recent_season(),
   game_identifier = "game_id",
   max_results_returned = 3000
 ) {
