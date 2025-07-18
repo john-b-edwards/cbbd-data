@@ -39,24 +39,22 @@ build_plays <- function(
     ) |>
     purrr::list_rbind()
   plays <- plays |>
-    dplyr::mutate(play_id = dplyr::row_number())
-  plays <- plays |>
-    dplyr::select(play_id, participants) |>
+    dplyr::select(id, participants) |>
     tidyr::unnest(c(participants), names_sep = "_") |>
-    dplyr::group_by(play_id) |>
-    dplyr::mutate(id = dplyr::row_number()) |>
+    dplyr::group_by(id) |>
+    dplyr::mutate(id_2 = dplyr::row_number()) |>
     dplyr::ungroup() |>
     tidyr::pivot_wider(
-      names_from = "id",
+      names_from = "id_2",
       values_from = c(participants_id, participants_name),
-      id_cols = play_id
+      id_cols = id
     ) |>
     dplyr::right_join(
       dplyr::select(plays, -participants),
-      by = dplyr::join_by("play_id")
+      by = dplyr::join_by("id")
     )
   plays <- plays |>
-    dplyr::select(play_id, shot_info) |>
+    dplyr::select(id, shot_info) |>
     tidyr::unnest_wider(shot_info, names_sep = '_') |>
     tidyr::drop_na() |>
     tidyr::unnest_wider(shot_info_shooter, names_sep = "_") |>
@@ -64,10 +62,10 @@ build_plays <- function(
     tidyr::unnest_wider(shot_info_location, names_sep = "_") |>
     dplyr::right_join(
       dplyr::select(plays, -shot_info),
-      by = dplyr::join_by("play_id")
+      by = dplyr::join_by("id")
     )
   on_floor <- plays |>
-    dplyr::select(play_id, on_floor) |>
+    dplyr::select(id, on_floor) |>
     tidyr::drop_na()
   if (nrow(on_floor)) {
     plays <- on_floor |>
@@ -77,7 +75,7 @@ build_plays <- function(
       tidyr::unnest_wider(on_floor_team, names_sep = "_") |>
       dplyr::right_join(
         dplyr::select(plays, -on_floor),
-        by = dplyr::join_by("play_id")
+        by = dplyr::join_by("id")
       )
   } else {
     plays <- plays |>
@@ -241,6 +239,7 @@ build_plays <- function(
     )
   )
   clean_game_type(plays)
+  data.table::setorderv(plays, cols = c("play_id", "game_id"))
   plays <- as.data.frame(plays)
   cbbd_save(plays, paste0("plays_", query_season), "plays")
 }
