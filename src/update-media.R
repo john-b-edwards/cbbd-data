@@ -6,6 +6,25 @@ build_media <- function(query_season = most_recent_season()) {
     tidyr::unnest_longer(broadcasts) |>
     tidyr::unnest_wider(broadcasts, names_sep = "_")
   media <- janitor::clean_names(media)
+  data.table::setDT(media)
+  data.table::setnames(
+    media,
+    old = c(
+      "home_conference",
+      "away_conference",
+      "notes",
+      "broadcasts_broadcast_type",
+      "broadcasts_broadcast_name"
+    ),
+    new = c(
+      "home_conference_short_name",
+      "away_conference_short_name",
+      "game_notes",
+      "broadcast_type",
+      "broadcast_name"
+    )
+  )
+  media <- as.data.frame(media)
   cbbd_save(
     media,
     paste0("media_", query_season),

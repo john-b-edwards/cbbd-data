@@ -11,6 +11,31 @@ build_games <- function(query_season = most_recent_season()) {
       games[[paste0("away", colname)]] <- NA_integer_
     }
   }
+  data.table::setDT(games)
+  data.table::setnames(
+    games,
+    old = c(
+      "id",
+      "source_id",
+      "home_team",
+      "home_conference",
+      "away_team",
+      "away_conference",
+      "city",
+      "state"
+    ),
+    new = c(
+      "game_id",
+      "game_source_id",
+      "home_team_name",
+      "home_conference_short_name",
+      "away_team_name",
+      "away_conference_short_name",
+      "venue_city",
+      "venue_state"
+    )
+  )
+  games <- as.data.frame(games)
   cbbd_save(games, paste0("games_", query_season), "games")
 }
 
