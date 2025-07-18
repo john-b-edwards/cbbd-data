@@ -117,7 +117,8 @@ build_team_box <- function(query_season = most_recent_season()) {
       "opponent_stats_four_factors_effective_field_goal_pct",
       "opponent_stats_four_factors_free_throw_rate",
       "opponent_stats_four_factors_turnover_ratio",
-      "opponent_stats_four_factors_offensive_rebound_pct"
+      "opponent_stats_four_factors_offensive_rebound_pct",
+      "pace"
     ),
     c(
       "team_name",
@@ -210,6 +211,7 @@ build_team_box <- function(query_season = most_recent_season()) {
       "opponent_free_throw_rate",
       "opponent_assists_turnover_ratio",
       "opponent_offensive_rebound_pct",
+      "game_pace"
     )
   )
   team_box <- as.data.frame(team_box)
