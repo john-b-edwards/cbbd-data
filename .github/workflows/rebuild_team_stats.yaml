@@ -31,6 +31,8 @@ jobs:
             any::piggyback
             any::gh
             any::janitor
+          extra-packages: |
+            john-b-edwards/cbbreadr
 
       - name: Rebuild team stats
         run: Rscript -e 'source("src/update-team-stats.R")'

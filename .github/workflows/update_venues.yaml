@@ -34,6 +34,8 @@ jobs:
             any::piggyback
             any::gh
             any::janitor
+          extra-packages: |
+            john-b-edwards/cbbreadr
 
       - name: Update venues
         run: Rscript -e 'source("src/update-venues.R")'

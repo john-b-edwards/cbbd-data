@@ -1,6 +1,6 @@
 source("R/utils.R")
 
-build_player_stats <- function(query_season = most_recent_season()) {
+build_player_stats <- function(query_season = cbbreadr::most_recent_season()) {
   player_stats <- query_cbbd(
     "stats/player/season",
     list(season = query_season)
@@ -17,7 +17,11 @@ build_player_stats <- function(query_season = most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:most_recent_season(), build_player_stats, .progress = T)
+  purrr::walk(
+    2003:cbbreadr::most_recent_season(),
+    build_player_stats,
+    .progress = T
+  )
 } else {
   build_player_stats()
 }

@@ -1,6 +1,6 @@
 source("R/utils.R")
 
-build_team_box <- function(query_season = most_recent_season()) {
+build_team_box <- function(query_season = cbbreadr::most_recent_season()) {
   team_box <- query_games("games/teams", query_season)
   team_box <- team_box |>
     tidyr::unnest_wider(team_stats, names_sep = "_") |>
@@ -33,7 +33,11 @@ build_team_box <- function(query_season = most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:most_recent_season(), build_team_box, .progress = T)
+  purrr::walk(
+    2003:cbbreadr::most_recent_season(),
+    build_team_box,
+    .progress = T
+  )
 } else {
   build_team_box()
 }

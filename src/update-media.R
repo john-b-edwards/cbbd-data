@@ -1,6 +1,6 @@
 source("R/utils.R")
 
-build_media <- function(query_season = most_recent_season()) {
+build_media <- function(query_season = cbbreadr::most_recent_season()) {
   media <- query_games("games/media", query_season)
   media <- media |>
     tidyr::unnest_longer(broadcasts) |>
@@ -15,7 +15,7 @@ build_media <- function(query_season = most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:most_recent_season(), build_media, .progress = T)
+  purrr::walk(2003:cbbreadr::most_recent_season(), build_media, .progress = T)
 } else {
   build_media()
 }
