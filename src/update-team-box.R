@@ -215,6 +215,24 @@ build_team_box <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(team_box)
+  team_box[,
+    c(
+      "offense_points_by_period_1",
+      "defense_points_by_period_1",
+      "offense_points_by_period_2",
+      "defense_points_by_period_2",
+      "offense_points_by_period_3",
+      "defense_points_by_period_3",
+      "offense_points_by_period_4",
+      "defense_points_by_period_4",
+      "offense_points_by_period_5",
+      "defense_points_by_period_5",
+      "offense_points_by_period_6",
+      "defense_points_by_period_6",
+      "offense_points_by_period_7",
+      "defense_points_by_period_7"
+    ) := NULL
+  ]
   team_box <- as.data.frame(team_box)
   cbbd_save(
     team_box,
