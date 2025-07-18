@@ -1,6 +1,6 @@
 source("R/utils.R")
 
-build_rosters <- function(query_season = most_recent_season()) {
+build_rosters <- function(query_season = cbbreadr::most_recent_season()) {
   rosters <- query_cbbd("teams/roster", list(season = query_season))
   rosters <- rosters |>
     tidyr::unnest_longer(players) |>
@@ -14,7 +14,7 @@ build_rosters <- function(query_season = most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:most_recent_season(), build_rosters, .progress = T)
+  purrr::walk(2003:cbbreadr::most_recent_season(), build_rosters, .progress = T)
 } else {
   build_rosters()
 }

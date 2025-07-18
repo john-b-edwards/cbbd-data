@@ -2,7 +2,7 @@ source("R/utils.R")
 options(nflreadr.verbose = FALSE)
 
 build_plays <- function(
-  query_season = most_recent_season(),
+  query_season = cbbreadr::most_recent_season(),
   build_from_scratch = FALSE
 ) {
   games <- nflreadr::load_from_url(glue::glue(
@@ -111,7 +111,7 @@ build_plays <- function(
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2006:most_recent_season(), \(x) {
+  purrr::walk(2006:cbbreadr::most_recent_season(), \(x) {
     print(paste0("Building plays for ", x, "..."))
     build_plays(x, build_from_scratch = TRUE)
     print("Done!")

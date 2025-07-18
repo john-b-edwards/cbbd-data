@@ -1,6 +1,6 @@
 source("R/utils.R")
 
-build_games <- function(query_season = most_recent_season()) {
+build_games <- function(query_season = cbbreadr::most_recent_season()) {
   games <- query_games("games", query_season, game_identifier = "id")
   games <- games |>
     tidyr::unnest_wider(home_period_points, names_sep = "_") |>
@@ -16,7 +16,7 @@ build_games <- function(query_season = most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:most_recent_season(), build_games, .progress = T)
+  purrr::walk(2003:cbbreadr::most_recent_season(), build_games, .progress = T)
 } else {
   build_games()
 }
