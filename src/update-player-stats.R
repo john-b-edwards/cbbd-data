@@ -12,6 +12,17 @@ build_player_stats <- function(query_season = cbbreadr::most_recent_season()) {
     tidyr::unnest_wider(rebounds, names_sep = "_") |>
     tidyr::unnest_wider(win_shares, names_sep = "_") |>
     janitor::clean_names()
+  data.table::setDT(player_stats)
+  data.table::setnames(
+    player_stats,
+    old = c("team", "conference", "name", "position"),
+    new = c(
+      "team_name",
+      "conference_short_name",
+      "athlete_name",
+      "athlete_position"
+    )
+  )
   cbbd_save(player_stats, paste0("player_stats_", query_season), "player_stats")
 }
 

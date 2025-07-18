@@ -6,6 +6,18 @@ build_lines <- function(query_season = cbbreadr::most_recent_season()) {
     tidyr::unnest_longer(lines) |>
     tidyr::unnest(lines) |>
     janitor::clean_names()
+  data.table::setDT(lines)
+  data.table::setnames(
+    lines,
+    old = c("home_team", "home_conference", "away_team", "away_conference"),
+    new = c(
+      "home_team_name",
+      "home_conference_short_name",
+      "away_team_name",
+      "away_conference_short_name"
+    )
+  )
+  lines <- as.data.frame(lines)
   cbbd_save(lines, paste0("lines_", query_season), "lines")
 }
 
