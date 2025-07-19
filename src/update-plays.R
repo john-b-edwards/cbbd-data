@@ -82,17 +82,17 @@ build_plays <- function(
       dplyr::mutate(on_floor = NULL)
   }
   plays <- janitor::clean_names(plays)
-  for (colname in paste0("on_floor_id_", 1:12)) {
+  for (colname in paste0("on_floor_id_", 1:14)) {
     if (!(colname %in% colnames(plays))) {
       plays[[colname]] <- NA_integer_
     }
   }
-  for (colname in paste0("on_floor_name_", 1:12)) {
+  for (colname in paste0("on_floor_name_", 1:14)) {
     if (!(colname %in% colnames(plays))) {
       plays[[colname]] <- NA_character_
     }
   }
-  for (colname in paste0("on_floor_team_", 1:12)) {
+  for (colname in paste0("on_floor_team_", 1:14)) {
     if (!(colname %in% colnames(plays))) {
       plays[[colname]] <- NA_character_
     }
