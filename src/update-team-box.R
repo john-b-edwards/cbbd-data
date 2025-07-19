@@ -233,6 +233,7 @@ build_team_box <- function(query_season = cbbreadr::most_recent_season()) {
       "defense_points_by_period_7"
     ) := NULL
   ]
+  pct_to_decimal(team_box)
   team_box <- as.data.frame(team_box)
   cbbd_save(
     team_box,

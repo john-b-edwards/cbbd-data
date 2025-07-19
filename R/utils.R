@@ -90,6 +90,7 @@ cbbd_save <- function(df, file_name, file_tag) {
 }
 
 clean_game_type <- function(x) {
+  data.table::setDT(x)
   x[,
     game_type := data.table::fcase(
       game_type == "STD",
@@ -102,4 +103,25 @@ clean_game_type <- function(x) {
       default = NA_character_
     )
   ]
+}
+
+pct_to_decimal <- function(x) {
+  data.table::setDT(x)
+  pct_cols <- c(
+    "usage",
+    "effective_field_goal_pct",
+    "true_shooting_pct",
+    "free_throw_rate",
+    "offensive_rebound_pct",
+    "field_goals_pct",
+    "two_point_field_goals_pct",
+    "three_point_field_goals_ct",
+    "free_throws_pct"
+  )
+  cols <- lapply(pct_cols, \(y) colnames(x)[grepl(y, colnames(x))]) |>
+    unlist() |>
+    unique()
+  for (col in cols) {
+    x[, (col) := get(col) / 100]
+  }
 }
