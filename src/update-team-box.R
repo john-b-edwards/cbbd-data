@@ -17,10 +17,10 @@ build_team_box <- function(query_season = cbbreadr::most_recent_season()) {
   team_box <- team_box |>
     tidyr::unnest_wider(team_stats_points_byPeriod, names_sep = "_") |>
     tidyr::unnest_wider(opponent_stats_points_byPeriod, names_sep = "_")
-  for (colname in paste0("_points_byPeriod_", 1:7)) {
-    if (!(paste0("offense", colname) %in% colnames(team_box))) {
-      team_box[[paste0("offense", colname)]] <- NA_integer_
-      team_box[[paste0("defense", colname)]] <- NA_integer_
+  for (colname in paste0("_stats_points_byPeriod_", 1:7)) {
+    if (!(paste0("team", colname) %in% colnames(team_box))) {
+      team_box[[paste0("team", colname)]] <- NA_integer_
+      team_box[[paste0("opponent", colname)]] <- NA_integer_
     }
   }
   team_box <- janitor::clean_names(team_box)
@@ -215,24 +215,6 @@ build_team_box <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(team_box)
-  team_box[,
-    c(
-      "offense_points_by_period_1",
-      "defense_points_by_period_1",
-      "offense_points_by_period_2",
-      "defense_points_by_period_2",
-      "offense_points_by_period_3",
-      "defense_points_by_period_3",
-      "offense_points_by_period_4",
-      "defense_points_by_period_4",
-      "offense_points_by_period_5",
-      "defense_points_by_period_5",
-      "offense_points_by_period_6",
-      "defense_points_by_period_6",
-      "offense_points_by_period_7",
-      "defense_points_by_period_7"
-    ) := NULL
-  ]
   pct_to_decimal(team_box)
   data.table::setDF(team_box)
   cbbd_save(
