@@ -37,7 +37,7 @@ build_teams <- function(query_season = cbbreadr::most_recent_season()) {
       "conference_short_name"
     )
   )
-  teams <- as.data.frame(teams)
+  data.table::setDF(teams)
   cbbd_save(teams, paste0("teams_", query_season), "teams")
 }
 

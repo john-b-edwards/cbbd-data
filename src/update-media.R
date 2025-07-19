@@ -25,7 +25,7 @@ build_media <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(media)
-  media <- as.data.frame(media)
+  data.table::setDF(media)
   cbbd_save(
     media,
     paste0("media_", query_season),

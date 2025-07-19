@@ -36,7 +36,7 @@ build_games <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(games)
-  games <- as.data.frame(games)
+  data.table::setDF(games)
   cbbd_save(games, paste0("games_", query_season), "games")
 }
 

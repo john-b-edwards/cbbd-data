@@ -42,7 +42,7 @@ build_player_box <- function(query_season = cbbreadr::most_recent_season()) {
   )
   clean_game_type(player_box)
   pct_to_decimal(player_box)
-  player_box <- data.frame(player_box)
+  data.table::setDF(player_box)
   cbbd_save(
     player_box,
     paste0("player_box_scores_", query_season),
