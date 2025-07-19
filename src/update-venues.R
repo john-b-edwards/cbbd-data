@@ -15,7 +15,7 @@ build_venues <- function() {
       "venue_country"
     )
   )
-  venues <- as.data.frame(venues)
+  data.table::setDF(venues)
   cbbd_save(venues, "venues", "venues")
 }
 

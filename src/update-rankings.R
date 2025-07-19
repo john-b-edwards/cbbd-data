@@ -8,7 +8,7 @@ update_rankings <- function() {
     old = c("team", "conference"),
     new = c("team_name", "conference_short_name")
   )
-  rankings <- as.data.frame(rankings)
+  data.table::setDF(rankings)
   cbbd_save(rankings, "rankings", "rankings")
 }
 

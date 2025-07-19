@@ -17,7 +17,7 @@ build_lines <- function(query_season = cbbreadr::most_recent_season()) {
       "away_conference_short_name"
     )
   )
-  lines <- as.data.frame(lines)
+  data.table::setDF(lines)
   cbbd_save(lines, paste0("lines_", query_season), "lines")
 }
 

@@ -36,7 +36,7 @@ update_recruiting <- function() {
       "recruit_year"
     )
   )
-  recruiting <- as.data.frame(recruiting)
+  data.table::setDF(recruiting)
   cbbd_save(recruiting, "recruiting", "recruiting")
 }
 

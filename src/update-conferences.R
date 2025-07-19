@@ -13,7 +13,7 @@ build_conferences <- function() {
       "conference_short_name"
     )
   )
-  conferences <- as.data.frame(conferences)
+  data.table::setDF(conferences)
   cbbd_save(conferences, "conferences", "conferences")
 }
 

@@ -55,7 +55,7 @@ build_rosters <- function(query_season = cbbreadr::most_recent_season()) {
       "athlete_end_season"
     )
   )
-  rosters <- as.data.frame(rosters)
+  data.table::setDF(rosters)
   cbbd_save(rosters, paste0("rosters_", query_season), "rosters")
 }
 

@@ -174,7 +174,7 @@ build_team_stats <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   pct_to_decimal(team_stats)
-  team_stats <- as.data.frame(team_stats)
+  data.table::setDF(team_stats)
   cbbd_save(team_stats, paste0("team_stats_", query_season), "team_stats")
 }
 
