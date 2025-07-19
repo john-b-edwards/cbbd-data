@@ -36,6 +36,58 @@ build_games <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(games)
+  data.table::setcolorder(
+    games,
+    c(
+      "game_id",
+      "game_source_id",
+      "season_label",
+      "season",
+      "season_type",
+      "tournament",
+      "start_date",
+      "start_time_tbd",
+      "neutral_site",
+      "conference_game",
+      "game_type",
+      "status",
+      "game_notes",
+      "attendance",
+      "home_team_id",
+      "home_team_name",
+      "home_conference_id",
+      "home_conference_short_name",
+      "home_seed",
+      "home_points",
+      "home_period_points_1",
+      "home_period_points_2",
+      "home_period_points_3",
+      "home_period_points_4",
+      "home_period_points_5",
+      "home_period_points_6",
+      "home_period_points_7",
+      "home_winner",
+      "away_team_id",
+      "away_team_name",
+      "away_conference_id",
+      "away_conference_short_name",
+      "away_seed",
+      "away_points",
+      "away_period_points_1",
+      "away_period_points_2",
+      "away_period_points_3",
+      "away_period_points_4",
+      "away_period_points_5",
+      "away_period_points_6",
+      "away_period_points_7",
+      "away_winner",
+      "excitement",
+      "venue_id",
+      "venue",
+      "venue_city",
+      "venue_state"
+    )
+  )
   games <- as.data.frame(games)
   cbbd_save(games, paste0("games_", query_season), "games")
 }
