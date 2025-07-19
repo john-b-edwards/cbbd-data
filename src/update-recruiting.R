@@ -14,7 +14,7 @@ update_recruiting <- function() {
       "school_id",
       "school",
       "committed_to_id",
-      "committed_to_school",
+      "committed_to_name",
       "committed_to_conference",
       "name",
       "height_inches",
