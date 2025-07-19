@@ -24,7 +24,7 @@ build_player_box <- function(query_season = cbbreadr::most_recent_season()) {
     old = c(
       "notes",
       "team",
-      "team_conference",
+      "conference",
       "opponent",
       "opponent_conference",
       "name",
@@ -41,6 +41,7 @@ build_player_box <- function(query_season = cbbreadr::most_recent_season()) {
     )
   )
   clean_game_type(player_box)
+  pct_to_decimal(player_box)
   player_box <- data.frame(player_box)
   cbbd_save(
     player_box,

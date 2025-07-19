@@ -239,6 +239,7 @@ build_plays <- function(
     )
   )
   clean_game_type(plays)
+  pct_to_decimal(plays)
   data.table::setorderv(plays, cols = c("play_id", "game_id"))
   plays <- as.data.frame(plays)
   cbbd_save(plays, paste0("plays_", query_season), "plays")

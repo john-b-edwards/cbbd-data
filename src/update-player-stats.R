@@ -23,6 +23,7 @@ build_player_stats <- function(query_season = cbbreadr::most_recent_season()) {
       "athlete_position"
     )
   )
+  pct_to_decimal(player_stats)
   cbbd_save(player_stats, paste0("player_stats_", query_season), "player_stats")
 }
 
