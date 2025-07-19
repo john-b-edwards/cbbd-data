@@ -35,7 +35,7 @@ build_media <- function(query_season = cbbreadr::most_recent_season()) {
 
 # build all seasons
 if (Sys.getenv("TO_UPDATE") == "ALL") {
-  purrr::walk(2003:cbbreadr::most_recent_season(), build_media, .progress = T)
+  purrr::walk(2011:cbbreadr::most_recent_season(), build_media, .progress = T)
 } else {
   build_media()
 }
