@@ -242,7 +242,11 @@ build_plays <- function(
   clean_game_type(plays)
   pct_to_decimal(plays)
   data.table::setorderv(plays, cols = c("play_id", "game_id"))
-  plays[,clean_sub_data := (all(!is.na(on_floor_athlete_id_10)) & all(is.na(on_floor_athlete_id_11))), by=.(game_id)]
+  plays[,
+    clean_sub_data := (all(!is.na(on_floor_athlete_id_10)) &
+      all(is.na(on_floor_athlete_id_11))),
+    by = .(game_id)
+  ]
   data.table::setDF(plays)
   cbbd_save(plays, paste0("plays_", query_season), "plays")
 }
