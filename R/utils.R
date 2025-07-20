@@ -77,10 +77,17 @@ cbbd_save <- function(df, file_name, file_tag) {
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv")))
   data.table::fwrite(df, file.path(temp_dir, paste0(file_name, ".csv.gz")))
   arrow::write_parquet(df, file.path(temp_dir, paste0(file_name, ".parquet")))
-  ts <- list("last_updated" = Sys.time())
-  jsonlite::write_json(ts, file.path(temp_dir, "timestamp.json"))
+  list(
+    "last_updated" = format(
+      Sys.time(),
+      tz = "America/Los_Angeles",
+      usetz = TRUE
+    )
+  ) |>
+    jsonlite::toJSON(auto_unbox = TRUE) |>
+    writeLines(file.path(temp_dir, "timestamp.json"))
   files <- list.files(temp_dir)
-  files <- files[grepl(file_name, files)]
+  files <- files[grepl(file_name, files) | (files == "timestamp.json")]
   for (file in file.path(temp_dir, files)) {
     piggyback::pb_upload(
       file,
