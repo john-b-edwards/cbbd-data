@@ -38,6 +38,7 @@ build_plays <- function(
       .progress = TRUE
     ) |>
     purrr::list_rbind()
+  plays <- dplyr::distinct(plays, id, .keep_all = TRUE)
   plays <- plays |>
     dplyr::select(id, participants) |>
     tidyr::unnest(c(participants), names_sep = "_") |>
